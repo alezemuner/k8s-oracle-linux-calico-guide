@@ -3,11 +3,10 @@ Siga estes passos em cada máquina que será um Worker.
 ## 1. Instalação Base
 Execute os mesmos passos do Master para:
 1. Pré-requisitos de Kernel e Swap (Ver README).
-2. Instalação e configuração do `containerd`.
-3. Instalação dos binários `kubeadm`, `kubelet` e `kubectl`.
+2. Instalação e configuração do `containerd` (Ver 1.Instalar Containerd no 01-control-plane.md).
+3. Instalação dos binários `kubeadm`, `kubelet` e `kubectl` (Ver 1.Instalar Containerd no 01-control-plane.md).
 
 ## 2. Configurar Firewall do Worker
-
 O Worker tem portas diferentes. Ele não precisa expor a API (6443), mas precisa expor portas para serviços (NodePort).
 
 ```bash
@@ -32,16 +31,13 @@ sudo firewall-cmd --reload
 ```
 
 ## 3. Ingressar no Cluster (Join)
-
 No Master Node, gere o comando de token:
 ```bash
 kubeadm token create --print-join-command
 ```
-
 Copie a saída (começa com kubeadm join...) e execute no Worker Node como sudo.
 
 ## 4. Verificação
-
 Volte ao Master e rode:
 ```bash
 kubectl get nodes

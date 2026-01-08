@@ -1,11 +1,11 @@
 # Instalação de Kubernetes em Oracle Linux com Calico
 
-Este repositório documenta a instalação passo a passo de um cluster Kubernetes (v1.30+) utilizando **Oracle Linux 9** e **Calico CNI**.
+Este repositório documenta a instalação passo a passo de um cluster Kubernetes (v1.33) utilizando **Oracle Linux 9** e **Calico CNI**.
 O guia cobre desde a preparação do Sistema Operacional até a configuração de Storage Dinâmico e LoadBalancer para ambientes on-premise (VMs).
 
 ## 📋 Arquitetura do Lab
 
-- **OS:** Oracle Linux 9 (Unbreakable Enterprise Kernel)
+- **OS:** Oracle Linux Server 9.6
 - **Container Runtime:** Containerd
 - **CNI (Rede):** Calico (Network CIDR: `192.168.0.0/16`)
 - **Storage:** Rancher Local Path Provisioner
@@ -44,12 +44,14 @@ net.bridge.bridge-nf-call-iptables  = 1
 net.bridge.bridge-nf-call-ip6tables = 1
 net.ipv4.ip_forward                 = 1
 EOF
-
-sudo sysctl --system
 ```
 
 ```bash
-#Desativar Swap
+sudo sysctl --system
+```
+
+### Desativar Swap
+```bash
 sudo swapoff -a
 sudo sed -i '/ swap / s/^/#/' /etc/fstab
 ```

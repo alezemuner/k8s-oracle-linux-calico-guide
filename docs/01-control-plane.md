@@ -4,7 +4,7 @@
 
 ```bash
 sudo yum install -y yum-utils
-sudo yum-config-manager --add-repo [https://download.docker.com/linux/centos/docker-ce.repo](https://download.docker.com/linux/centos/docker-ce.repo)
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 sudo yum install -y containerd.io
 
 # Configurar Cgroups (Essencial para Kubernetes)
@@ -25,10 +25,10 @@ sudo sed -i 's/^SELINUX=enforcing/SELINUX=permissive/' /etc/selinux/config
 cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
-baseurl=[https://pkgs.k8s.io/core:/stable:/v1.33/rpm/](https://pkgs.k8s.io/core:/stable:/v1.33/rpm/)
+baseurl=https://pkgs.k8s.io/core:/stable:/v1.33/rpm/
 enabled=1
 gpgcheck=1
-gpgkey=[https://pkgs.k8s.io/core:/stable:/v1.33/rpm/repodata/repomd.xml.key](https://pkgs.k8s.io/core:/stable:/v1.33/rpm/repodata/repomd.xml.key)
+gpgkey=https://pkgs.k8s.io/core:/stable:/v1.33/rpm/repodata/repomd.xml.key
 exclude=kubelet kubeadm kubectl cri-tools kubernetes-cni
 EOF
 
@@ -56,10 +56,16 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ## 4. Instalar Rede (Calico CNI)
 Instalar o Operador
 ```bash
-kubectl create -f [https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/tigera-operator.yaml](https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/tigera-operator.yaml)
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/tigera-operator.yaml
 
 # Instalar os Recursos Customizados (CIDR 192.168.0.0/16)
-kubectl create -f [https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/custom-resources.yaml](https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/custom-resources.yaml)
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/custom-resources.yaml
+```
+
+Verifique se os pods do Calico estão rodando:
+```bash
+# Espere até todos estarem "Running"
+watch kubectl get pods -n calico-system
 ```
 
 ## 5. Configurar Firewall (Oracle Linux)
@@ -83,5 +89,6 @@ sudo firewall-cmd --permanent --zone=trusted --add-interface=tunl0
 # Permitir tráfego da rede local (Ajuste para sua rede, ex: 192.16.1.0/24)
 sudo firewall-cmd --permanent --zone=trusted --add-source=192.16.1.0/24
 
+# Recarrega as regras
 sudo firewall-cmd --reload
 ```
