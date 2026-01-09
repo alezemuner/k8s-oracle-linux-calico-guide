@@ -38,7 +38,7 @@ metadata:
 spec:
   addresses:
   - 192.16.1.245-192.16.1.250 # <--- AJUSTE PARA SUA REDE
----
+
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
