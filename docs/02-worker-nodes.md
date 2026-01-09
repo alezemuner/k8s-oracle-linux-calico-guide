@@ -24,6 +24,7 @@ sudo firewall-cmd --permanent --add-port=30000-32767/tcp
 sudo firewall-cmd --permanent --add-masquerade
 sudo firewall-cmd --permanent --zone=trusted --add-interface=cali+
 sudo firewall-cmd --permanent --zone=trusted --add-interface=tunl0
+
 # Permitir tráfego da rede local (Ajuste para sua rede, ex: 192.16.1.0/24)
 sudo firewall-cmd --permanent --zone=trusted --add-source=192.16.1.0/24
 sudo firewall-cmd --reload
