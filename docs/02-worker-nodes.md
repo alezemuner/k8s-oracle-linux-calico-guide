@@ -17,7 +17,6 @@ sudo firewall-cmd --permanent --add-port=4789/udp
 sudo firewall-cmd --permanent --add-port=5473/tcp
 sudo firewall-cmd --permanent --add-protocol=ipip
 
-
 # Portas para NodePort Services (Acesso externo as aplicações)
 sudo firewall-cmd --permanent --add-port=30000-32767/tcp
 
