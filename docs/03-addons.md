@@ -8,7 +8,7 @@ Permite criar PVCs dinâmicos usando o disco local do nó.
 
 ```bash
 # Instalar
-kubectl apply -f [https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml](https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml)
+kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
 
 # Verificar
 kubectl get sc
@@ -24,8 +24,7 @@ sed -e "s/strictARP: false/strictARP: true/" | \
 kubectl apply -f - -n kube-system
 
 # Instalar Manifestos
-kubectl apply -f [https://raw.githubusercontent.com/metallb/metallb/v0.13.12/config/manifests/metallb-native.yaml](https://raw.githubusercontent.com/metallb/metallb/v0.13.12/config/manifests/metallb-native.yaml)
-```
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.12/config/manifests/metallb-native.yaml
 
 Configuração de Rede (IPAddressPool)
 Crie um arquivo metallb-config.yaml. Defina um range de IPs da sua rede que não esteja no DHCP.
