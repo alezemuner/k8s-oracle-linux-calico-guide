@@ -70,21 +70,32 @@ watch kubectl get pods -n calico-system
 
 ## 5. Configurar Firewall (Oracle Linux)
 ```bash
-# Portas do Kubernetes API e Etcd
+# API Server
 sudo firewall-cmd --permanent --add-port=6443/tcp
-sudo firewall-cmd --permanent --add-port=2379-2380/tcp
-sudo firewall-cmd --permanent --add-port=10250-10252/tcp
 
-# Portas do Calico (BGP e VXLAN e IPIP)
+# Etcd (comunicacao interna do cluster
+sudo firewall-cmd --permanent --add-port=2379-2380/tcp
+
+# Kubelet API, Controller Manager e Scheduler
+sudo firewall-cmd --permanent --add-port=10250-10252/tcp
+sudo firewall-cmd --permanent --add-port=10257/tcp
+sudo firewall-cmd --permanent --add-port=10259/tcp
+
+# Calico (BGP e VXLAN e IPIP) e MetalLB
 sudo firewall-cmd --permanent --add-port=179/tcp
 sudo firewall-cmd --permanent --add-port=4789/udp
 sudo firewall-cmd --permanent --add-port=5473/tcp
-sudo firewall-cmd --permanent --add-protocol=ipip
+sudo firewall-cmd --permanent --zone=trusted --add-port=7946/tcp
+sudo firewall-cmd --permanent --zone=trusted --add-port=7946/udp
 
-# Masquerade e Interfaces
+# Tunelamento e Interfaces virtuais
+sudo firewall-cmd --permanent --add-protocol=ipip
 sudo firewall-cmd --permanent --add-masquerade
 sudo firewall-cmd --permanent --zone=trusted --add-interface=cali+
 sudo firewall-cmd --permanent --zone=trusted --add-interface=tunl0
+
+# Monitoramento Prometheus Node Exporter
+sudo firewall-cmd --permanent --add-port=9100/tcp
 
 # Permitir tráfego da rede local (Ajuste para sua rede, ex: 192.16.1.0/24)
 sudo firewall-cmd --permanent --zone=trusted --add-source=192.16.1.0/24

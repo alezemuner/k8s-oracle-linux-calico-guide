@@ -10,18 +10,22 @@ Execute os mesmos passos do Master para:
 O Worker tem portas diferentes. Ele não precisa expor a API (6443), mas precisa expor portas para serviços (NodePort).
 
 ```bash
-# Porta do Kubelet e Calico
+# Kubelet
 sudo firewall-cmd --permanent --add-port=10250/tcp
+
+# NodePort Services (Acesso externo as aplicações)
+sudo firewall-cmd --permanent --add-port=30000-32767/tcp
+
+# Calico e MetalLB
 sudo firewall-cmd --permanent --add-port=179/tcp
 sudo firewall-cmd --permanent --add-port=4789/udp
+sudo firewall-cmd --permanent --zone=trusted --add-port=7946/tcp
+sudo firewall-cmd --permanent --zone=trusted --add-port=7946/udp
 sudo firewall-cmd --permanent --add-port=5473/tcp
-sudo firewall-cmd --permanent --add-protocol=ipip
-
-# Portas para NodePort Services (Acesso externo as aplicações)
-sudo firewall-cmd --permanent --add-port=30000-32767/tcp
 
 # Masquerade e Rede
 sudo firewall-cmd --permanent --add-masquerade
+sudo firewall-cmd --permanent --add-protocol=ipip
 sudo firewall-cmd --permanent --zone=trusted --add-interface=cali+
 sudo firewall-cmd --permanent --zone=trusted --add-interface=tunl0
 
